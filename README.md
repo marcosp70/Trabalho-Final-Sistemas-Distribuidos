@@ -30,8 +30,8 @@ Este projeto foi containerizado com **Docker**, o que significa que **roda perfe
 
 1. Clone o repositório:
    ```bash
-   git clone <URL_DO_SEU_REPOSITORIO>
-   cd "trab sistemas distribuidos"
+   git clone https://github.com/marcosp70/Trabalho-Final-Sistemas-Distribuidos.git
+   cd Trabalho-Final-Sistemas-Distribuidos
    ```
 
 2. Suba os containers com Docker Compose:
