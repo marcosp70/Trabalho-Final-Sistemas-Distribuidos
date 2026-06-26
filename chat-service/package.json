@@ -1,0 +1,18 @@
+{
+  "name": "chat-service",
+  "version": "1.0.0",
+  "description": "Chat Microservice with WebSockets",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@socket.io/redis-adapter": "^8.2.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.3.1",
+    "redis": "^4.6.7",
+    "socket.io": "^4.7.1"
+  }
+}

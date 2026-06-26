@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  # Load Balancer / API Gateway
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - auth-service
+      - chat-service
+    networks:
+      - chat-network
+
+  # Serviço de Autenticação / Usuário
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3001
+      - DATABASE_URL=postgresql://user:password@postgres:5432/authdb
+      - JWT_SECRET=super_secret_key_123
+    depends_on:
+      - postgres
+    networks:
+      - chat-network
+
+  # Serviço de Mensagens / Chat (Escalável - usaremos Nginx para balancear)
+  chat-service:
+    build:
+      context: ./chat-service
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3002
+      - MONGO_URI=mongodb://mongo:27017/chatdb
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=super_secret_key_123
+    depends_on:
+      - mongo
+      - redis
+    deploy:
+      replicas: 2
+    networks:
+      - chat-network
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    networks:
+      - chat-network
+
+  # Bancos de Dados e Ferramentas Auxiliares
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=authdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - chat-network
+
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - chat-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - chat-network
+
+networks:
+  chat-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  mongo-data:

@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+*.log
+.env
+screenshots/
+dist/
+build/
+*.tex
+*.pdf
+relatorio.md
