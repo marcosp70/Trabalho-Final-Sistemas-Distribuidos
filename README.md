@@ -69,4 +69,5 @@ Para demonstrar o funcionamento e a resiliência do sistema, os seguintes testes
 *   **Teste de Concorrência/Carga:** Simulação de múltiplos usuários virtuais concorrentes (10 usuários, 50 mensagens em rajada) atestando que a distribuição de carga pelo Nginx e o Pub/Sub do Redis estão funcionando sem perda de mensagens na escalabilidade horizontal.
 
 ## 👥 Autores
-*   [Seu Nome/Dupla]
+*   **Marcos Silva**
+*   **Arthur Bracarense**
